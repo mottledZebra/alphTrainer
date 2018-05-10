@@ -1,0 +1,278 @@
+/*-- общие стили --*/
+:root {
+  --primary-color: lightblue;
+  --secondary-color: white;
+  --font-main-color: midnightblue;
+  --font-inverse-color: white;
+  --menu-main-color: steelblue;
+  --menu-inverse-color: white;
+  --button-width: 100px;
+  --button-margin: 5px;
+  --header-height: 50px;
+  --footer-height: 24px;
+  --border-radius: 5px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+h2,
+h3 {
+  line-height: 2;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+body {
+  width: 80%;
+  min-width: 640px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: sans-serif;
+}
+
+main {
+  min-height: calc(100vh - var(--header-height) - var(--footer-height));
+}
+
+header, footer {
+  width: 100%;
+  background-color: var(--primary-color);
+}
+
+/*-- шапка --*/
+header {
+  height: var(--header-height);
+  padding: 5px;
+  font-size: 18px;
+}
+
+.logo {
+  height: 100%;
+  float: left;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+/*-- основное меню --*/
+nav ul {
+  list-style-type: none;
+  color: var(--font-main-color);
+  background-color: var(--primary-color);
+  border-radius: var(--border-radius);
+}
+
+nav ul ul {
+  display: none;
+  font-size: 16px;
+  margin-top: 10px;
+  margin-left: -10px;
+}
+
+li {
+  padding: 10px;
+  cursor: default;
+}
+
+.submenu {
+  float: left;
+}
+
+.submenu ul {
+  position: absolute;
+}
+
+li:hover {
+  background-color: var(--menu-main-color);
+  color: var(--font-inverse-color);
+  border-radius: var(--border-radius);
+}
+
+nav li:hover ul {
+  display: block;
+}
+
+/*-- подвал --*/
+footer {
+  height: var(--footer-height);
+  padding: 2px;
+  font-size: 10px;
+  color: var(--font-main-color);
+  line-height: 2;
+}
+
+.copyright {
+  height: 100%;
+  float: left;
+}
+
+.copyright img {
+  height: 100%;
+  margin: 0 2px;
+  float: right;
+}
+
+.ya-share2 {
+  float: right;
+  margin-right: 10px;
+}
+
+.ya-share2 li {
+  padding: 0;
+}
+
+.contacts form {
+  margin: 0 2px;
+  height: 100%;
+  float: right;
+}
+
+.contacts button {
+  padding: 2px;
+  border-style: none;
+  border-radius: var(--border-radius);
+  background-color: var(--secondary-color);
+  color: var(--font-main-color);
+  font-size: 12px;
+}
+
+.contacts button:hover {
+  background-color: var(--menu-main-color);
+  color: var(--font-inverse-color);
+}
+
+.banner {
+  margin: 5px;
+}
+
+/*-- главная страница --*/
+.main-page {
+  margin: 10px 20px;
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+/*-- таблица с алфавитом --*/
+.alphabet {
+  margin: auto;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.alphabet th,
+.alphabet td {
+  border: 1px solid var(--primary-color);
+  padding: 2px 10px;
+}
+
+.alphabet img {
+  max-height: 32px;
+  vertical-align: bottom;
+}
+
+audio {
+  max-width: 150px;
+}
+
+/*-- упражнения --*/
+.explanation {
+  text-align: center;
+}
+
+.exercise {
+  width: calc(4 * (var(--button-width) + 2 * var(--button-margin)) + 2 * var(--button-margin));
+  margin: 25px auto;
+  border: solid var(--primary-color);
+  border-radius: 10px;
+}
+
+.question {
+  margin: 25px auto 10px;
+  text-align: center;
+}
+
+.question img {
+  max-height: 32px;
+}
+
+.answers {
+  width: calc(4 * (var(--button-width) + 2 * var(--button-margin)));
+  margin: 25px auto 10px;
+}
+
+/*-- кнопки --*/
+.btn {
+  margin: var(--button-margin);
+  padding: 5px;
+  width: var(--button-width);
+  height: 50px;
+  border-radius: var(--border-radius);
+  background-color: var(--primary-color);
+  font-size: 16px;
+  vertical-align: middle;
+}
+
+.btn img {
+  max-height: 32px;
+}
+
+.success {
+  background-color: green;
+}
+
+.mistake {
+  background-color: red;
+}
+
+/*-- строка состояния --*/
+.status {
+  width: calc(4 * (var(--button-width) + 2 * var(--button-margin)));
+  margin: auto;
+  overflow: auto;
+}
+
+.bestTime {
+  width: 33%;
+  float: left;
+  color: green;
+}
+
+.timer {
+  width: 33%;
+  float: left;
+  text-align: center;
+}
+
+.life {
+  width: 20px;
+  float: right;
+}
+
+.right {
+  color: green;
+}
+
+.wrong {
+  color: red;
+}
+
+.relation {
+  float: left;
+}
+
+.percent {
+  float: right;
+  color: green;
+}
+
+.animated {
+  transition-property: background-color;
+  transition-duration: 2s;
+}
+

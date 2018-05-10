@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Алфавитный тренажер</title>
+  <meta name="description" content="Алфавитный тренажер с помощью простых упражнений позволяет выучить алфавиты следующих языков: арабский, греческий, иврит, финикийский, старославянский (глаголица)">
+  <meta name="keywords" content="алфавитный тренажер;арабский алфавит;греческий алфавит;иврит;финикийский алфавит;глаголица">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript" >
+      (function (d, w, c) {
+          (w[c] = w[c] || []).push(function() {
+              try {
+                  w.yaCounter48805313 = new Ya.Metrika({
+                      id:48805313,
+                      clickmap:true,
+                      trackLinks:true,
+                      accurateTrackBounce:true
+                  });
+              } catch(e) { }
+          });
+
+          var n = d.getElementsByTagName("script")[0],
+              s = d.createElement("script"),
+              f = function () { n.parentNode.insertBefore(s, n); };
+          s.type = "text/javascript";
+          s.async = true;
+          s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+          if (w.opera == "[object Opera]") {
+              d.addEventListener("DOMContentLoaded", f, false);
+          } else { f(); }
+      })(document, window, "yandex_metrika_callbacks");
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/48805313" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</head>
+
+<body>
+  <header>
+    <img class="logo" src="img/logo.png" alt="Логотип"/>
+    <nav>
+    </nav>
+  </header>
+
+  <main>
+  </main>
+
+  <footer>
+    <div class="copyright">
+      <a href="mailto:mottledZebra@yandex.ru">
+        <span>&copy mottledZebra</span>
+        <img src="img/zebra.png">
+      </a>
+    </div>
+    <div class="contacts">
+      <form action="mailto:mottledZebra@yandex.ru"><button>написать разработчикам</button></form>
+      <form action="https://money.yandex.ru/to/410015580900736" target="_blank"><button>сказать спасибо</button></form>
+    </div>
+    <div id="my-share"></div>
+  </footer>
+
+  <script src="https://yastatic.net/share2/share.js"></script>
+  <script src="js/languages.js"></script>
+  <script src="js/actions.js"></script>
+  <script src="js/functions.js"></script>
+  <script>
+    window.onload = function() {
+      'use strict';
+
+      renderMenu(document.querySelector('nav'), languages, "submenu", "data-language");
+
+      document.querySelectorAll('.submenu').forEach(function(item) {
+        renderMenu(item, actions, "submenu-item", "data-action");
+      })
+
+      renderPage('mainPage');
+
+      document.querySelector('.logo').onclick = function() {
+        renderPage('mainPage');
+      }
+
+      Ya.share2('my-share', {
+        content: {
+          url: 'https://alphtrainer.info',
+          title: 'Алфавитный тренажер',
+          description: 'Изучаешь иностранные языки? Заходи сюда, чтобы выучить алфавит!',
+          image: 'https://alphtrainer.info/img/logo.png'   
+        },
+        theme: {
+          services: 'vkontakte,facebook,odnoklassniki,twitter',
+          size: 's',
+        }
+      })
+
+      // клики на пунктах подменю обрабатываются панелью меню по принципу "всплытия"
+      document.querySelector('nav').onclick = function(event) {
+        var target = event.target;
+
+        while (target != this) {
+          var action = target.getAttribute('data-action');
+
+          if (action) {
+            var language = target.parentElement.parentElement.getAttribute('data-language');
+            renderPage(action, language);
+            return;
+          }
+          
+          target = target.parentElement;
+        }
+      }
+    }
+
+    // Функция renderMenu: отрисовка пунктов меню на основе шаблона.
+    // Аргументы: 
+    //    element - целевой элемент, куда должны быть вставлены созданные пункты меню, 
+    //    listItems - объект со списком пунктов меню вида key: value, где:
+    //      key - значение атрибута attributeName,
+    //      value - название пункта меню
+    //    className - CSS-класс для пункта меню, 
+    //    attributeName - название атрибута вида "data-...", используется для быборки элементов
+    // Возвращает: ничего
+    // Используемые функции: renderDom
+    /////////////////////////////////////////////////
+    function renderMenu(element, listItems, className, attributeName) {
+      'use strict';
+      
+      var menuListTemplate = {
+        tag: 'li',
+        attributes: {
+          'class': className,
+          [attributeName]: '#template#'
+        },
+        content: '#template#'
+      };
+
+      var menuList = [];
+      for (var key in listItems) {
+        menuList.push(replaceTemplate(menuListTemplate, [key, listItems[key]]));
+      }
+
+      var menu = {
+        tag: 'ul',
+        content: menuList
+      };
+      renderDom(element, menu);
+    }
+
+    // Функция renderPage: отрисовка страницы. Подключает скрипт с алфавитом,
+    //   формирует имя и аргументы функции генерации страницы, подключает скрипт с этой функцией и вызывает ее.
+    // Аргументы: 
+    //    action - имя функции генерации страницы и файла скрипта с этой функцией, 
+    //    language - название языка и имя файла скрипта с алфавитом и параметрами этого языка. 
+    //      Для главной страницы не задается.
+    // Возвращает: ничего
+    // Используемые функции: renderDom
+    /////////////////////////////////////////////////
+    function renderPage(action, language) {
+      'use strict';
+
+      // удаляем ранее подключенные скрипты
+      document.querySelectorAll('script').forEach(function(script) {
+        if (script.hasAttribute('data-type')) {
+          script.parentElement.removeChild(script);
+        }
+      });
+
+      var scriptTemplate = {
+        tag: 'script',
+      }
+
+      var languageArgs = {
+        languageName: '',
+        letters: [],
+        features: {}
+      }
+
+      // скрипт языка не подключается при отрисовке главной страницы
+      if (language) {
+        scriptTemplate.attributes = {
+          'data-type': 'language',
+          'src': 'js/languages/' + language + '.js'
+        }
+        var languageScript = renderDom(document.body, scriptTemplate);
+
+        languageScript.onload = function () {
+          languageArgs.languageName = languageName;
+          languageArgs.letters = letters;
+          languageArgs.features = features;
+
+          // страница создается только после загрузки языка
+          scriptTemplate.attributes = {
+            'data-type': 'action',
+            'src': 'js/actions/' + action + '.js'
+          }
+          var actionScript = renderDom(document.body, scriptTemplate);
+          actionScript.onload = actionLoad;
+        }
+      } else {
+        scriptTemplate.attributes = {
+          'data-type': 'action',
+          'src': 'js/actions/' + action + '.js'
+        }
+        var actionScript = renderDom(document.body, scriptTemplate);
+        actionScript.onload = actionLoad;
+      }
+
+      function actionLoad() {
+        var mainArea = document.getElementsByTagName('main')[0];
+        mainArea.innerHTML = '';
+
+        var actionArgs = {
+          target: mainArea,
+          language: language,
+          languageName: languageArgs.languageName,
+          letters: languageArgs.letters,
+          features: languageArgs.features
+        }
+
+        var actionFunction = new Function('args', 'return ' + action + '(args)');
+        actionFunction(actionArgs);
+      }
+    }
+  </script>
+</body>
+</html>
